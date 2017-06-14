@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        <style>
+            .btn{
+              height: 20vh !important;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header style="height: 50px;">
+                <h1 class="text-center">
+                    SoundBox
+                    <i class="glyphicon glyphicon-bullhorn" aria-hidden="true"></i>
+                </h1>
+            </header>
+            <div class="row">
+                <audio class="col-sm-12" id="reproductor" style="margin-top: 2em;" controls autoplay>
+                    <source src="sources/" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g=" crossorigin="anonymous"></script>
+        <script>
+            $(function () {
+                var source = [{ title: "", FileName: "" }];
+                source = [
+                    { title: "01", FileName: "", Time:  0},
+                    { title: "02", FileName: "" },
+                    { title: "03", FileName: "" },
+                    { title: "04", FileName: "" },
+                    { title: "05", FileName: "" },
+                    { title: "06", FileName: "" },
+                    { title: "07", FileName: "" },
+                    { title: "08", FileName: "" },
+                    { title: "09", FileName: "" },
+                    { title: "10", FileName: "" },
+                    { title: "11", FileName: "" },
+                    { title: "12", FileName: "" },
+                    { title: "13", FileName: "" },
+                    { title: "14", FileName: "" },
+                    { title: "15", FileName: "" },
+                    { title: "16", FileName: "" }
+                ];
+
+                var audio = $('<audio><source src="" type="audio/mpeg"></audio>')[0];
+                var boton = $('<button class="btn btn-primary btn-lg play"></button>');
+                var grp = $('<div class="btn-group col-sm-12">');
+                var sonidos = $('<div class="" id="sonidos"></div>');
+
+                var cSources = source.length;
+                var nCol = 4;
+
+                var wCol = 12 / nCol;
+                source.forEach(function (element, index, object) {                   
+                    var b = boton.clone();
+                    b[0].innerText = element.title;
+                    b.attr('data-source', element.FileName);                    
+                    if (element.Time !== undefined) {
+                        b.attr('data-tiempo', element.Time);
+                    }
+                    b.addClass("col-sm-" + wCol);
+                    grp.append(b);
+
+                    if (((index + 1) % nCol) === 0 || (index + 1) === object.length)
+                    {
+                        sonidos.append(grp.clone());
+                        grp.html("");                        
+                    }
+                });
+                sonidos.insertBefore('#reproductor')
+
+                var rep = $('#reproductor')[0];
+                $('.play').on('click', function () {
+                    rep.src = "sources/" + $(this).data('source');
+                    rep.currentTime = $(this).data('tiempo');
+                    rep.load();
+                });
+            });
+        </script>
+    </body>
+
+</html>
